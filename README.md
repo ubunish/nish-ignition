@@ -1,8 +1,11 @@
 # nish-ignition
 
-One `./setup.sh` that builds a full robotics workstation on macOS or Ubuntu: apps, packages, and Nish's own repos — with per-step flags and a reversible uninstall.
+One `./setup.sh` that builds a full robotics workstation on macOS or Ubuntu: apps and packages — with per-step flags and a reversible uninstall.
 
 The name nods to First Motive — first motion, ignition.
+
+nish-ignition is the platform layer only. Repo cloning and workflow-repo
+installation now live in the separate `nish-bringup` repo.
 
 ## Quick Start
 
@@ -61,7 +64,7 @@ Step ids come from the manifest. Comma-separate or repeat a flag.
 
 ```bash
 ./setup.sh --list                  # see the step ids
-./setup.sh --only cli-tools,repos  # one slice of the setup
+./setup.sh --only cli-tools,apps   # one slice of the setup
 ./setup.sh --skip nvidia,isaac-sim # everything but the heavy GPU bits
 ```
 
@@ -71,7 +74,6 @@ Step ids come from the manifest. Comma-separate or repeat a flag.
 |----------|--------|
 | `NONINTERACTIVE=1` | Skip all prompts. Steps that need a human are flagged, not run |
 | `UBUNDI_EMAIL=you@ubundi.co.za` | Preseed the email for the SSH key |
-| `CODE_DIR=/path` | Override where repos clone (default `~/code`) |
 
 ## Uninstall
 
@@ -84,29 +86,8 @@ Reversal is deliberately conservative. Cleanly reversible items come back out
 (brew formulae and casks, `uv` tools, Tailscale, snaps, the SSH service, the
 `NOPASSWD` sudoers rule). Destructive or system-level installs are **left in
 place** with a notice rather than removed automatically: Homebrew itself, the
-NVIDIA driver, the full ROS desktop, base apt packages, SSH keys, and cloned
-repos under `~/code`. Deleting a Python venv prompts first.
-
-## Repos Layer
-
-After the apps and packages, two steps clone and wire Nish's own repos:
-
-```
-repos            vcs import < repos.yaml  →  ~/code/{nish-aliases,nish-ai,fm-ros2}
-repo-installers  delegate to each repo's own entrypoint
-```
-
-`repos.yaml` pins the three repos. The `repo-installers` step hands off to each
-repo's own installer rather than reimplementing it:
-
-```
-nish-aliases/install.sh  {install|uninstall|status}
-nish-ai/install.sh       {install|uninstall|status}
-fm-ros2/scripts/setup-<os>.sh   (install only — fm-ros2 owns its Docker/colcon)
-```
-
-nish-ignition's own modes map onto that contract: `install → install`,
-`uninstall → uninstall`, `check → status`.
+NVIDIA driver, the full ROS desktop, base apt packages, and SSH keys. Deleting
+a Python venv prompts first.
 
 ## Manual Steps
 
@@ -122,10 +103,9 @@ A few things can't be scripted and are flagged inline by the relevant step:
 ```
 nish-ignition/
 ├── setup.sh                # OS-detect entrypoint + flag parsing
-├── repos.yaml              # vcstool manifest for ~/code repos
 ├── scripts/
 │   ├── manifest.sh         # step registry + package arrays (source of truth)
-│   ├── lib.sh              # helpers: logging, gating, dispatch, repo delegation
+│   ├── lib.sh              # helpers: logging, gating, dispatch
 │   ├── macos/              # 00-… 10-… … check/install/uninstall steps
 │   └── ubuntu/             # 00-… 10-… … check/install/uninstall steps
 └── docs/
