@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# nish-ignition entrypoint
+# nish-setup entrypoint
 # Detects OS and runs the manifest's steps in order.
 # Each step is idempotent and may be run standalone from scripts/<os>/.
 
@@ -22,7 +22,7 @@ LIST=0
 
 usage() {
   cat <<EOF
-nish-ignition — robotics workstation installer ($PLATFORM)
+nish-setup — robotics workstation installer ($PLATFORM)
 
 Usage: ./setup.sh [options]
 
@@ -59,7 +59,7 @@ while (($#)); do
 done
 
 if ((LIST)); then
-  log "nish-ignition steps — $PLATFORM"
+  log "nish-setup steps — $PLATFORM"
   printf '    %-16s %-22s %s\n' "ID" "FILE" "DEFAULT"
   for entry in "${STEPS[@]}"; do
     IFS='|' read -r id file default <<<"$entry"
@@ -77,7 +77,7 @@ if [[ "$MODE" == "uninstall" ]]; then
   STEPS=("${reversed[@]}")
 fi
 
-log "nish-ignition — $PLATFORM [$MODE]"
+log "nish-setup — $PLATFORM [$MODE]"
 info "Step dir: $STEPS_DIR"
 info "Set NONINTERACTIVE=1 to skip all prompts (manual steps will be flagged, not run)."
 echo

@@ -1,19 +1,17 @@
-# nish-ignition
+# nish-setup
 
 One `./setup.sh` that builds a full robotics workstation on macOS or Ubuntu: apps and packages — with per-step flags and a reversible uninstall.
 
-The name nods to First Motive — first motion, ignition.
-
-nish-ignition is the platform layer only. Repo cloning and workflow-repo
-installation now live in the separate `nish-bringup` repo.
+nish-setup is the platform layer only. Repo cloning and workflow-repo
+installation now live in the separate `nish-init` repo.
 
 ## Quick Start
 
 Prerequisite: `git`.
 
 ```bash
-git clone https://github.com/ubunish/nish-ignition.git ~/nish-ignition
-cd ~/nish-ignition
+git clone https://github.com/ubunish/nish-setup.git ~/ubunish/nish-setup
+cd ~/ubunish/nish-setup
 ./setup.sh
 ```
 
@@ -101,7 +99,7 @@ A few things can't be scripted and are flagged inline by the relevant step:
 ## Layout
 
 ```
-nish-ignition/
+nish-setup/
 ├── setup.sh                # OS-detect entrypoint + flag parsing
 ├── scripts/
 │   ├── manifest.sh         # step registry + package arrays (source of truth)

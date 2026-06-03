@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Central manifest: the single source of truth for what nish-ignition installs.
+# Central manifest: the single source of truth for what nish-setup installs.
 # Data only — no logic. Sourced by lib.sh, so every step sees these arrays.
 #
 # Step registry entries are "id|file|default" strings:
