@@ -1,6 +1,6 @@
 # Workstation Setup
 
-> Steps for setting up First Motive's workstation. Source-of-truth narrative; the automated version lives in `scripts/ubuntu/`.
+> Reference narrative. The automated flow in `./setup.sh` (see the [README](../README.md)) supersedes the manual steps below — run that first. This guide is kept for context, debugging, and the steps that still need a human (Ubuntu installer choices, BIOS, manual downloads).
 
 ## On the MacBook (preflight)
 

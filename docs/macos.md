@@ -1,6 +1,6 @@
 # MacBook Pro Setup
 
-> Nish's guide to setting up your work laptop. This is the source-of-truth narrative; the automated version lives in `scripts/macos/`.
+> Reference narrative. The automated flow in `./setup.sh` (see the [README](../README.md)) supersedes the manual steps below — run that first. This guide is kept for context, debugging, and the steps that still need a human.
 
 ## Create Accounts
 
