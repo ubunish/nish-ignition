@@ -61,14 +61,6 @@ python -c "import mujoco; print(mujoco.__version__)"
 python -m mujoco.viewer  # interactive viewer with a demo scene
 ```
 
-### LeRobot
-
-```bash
-uv venv ~/.venvs/lerobot --python 3.11
-source ~/.venvs/lerobot/bin/activate
-uv pip install lerobot
-```
-
 ### Hugging Face CLI
 
 ```bash
@@ -80,6 +72,5 @@ huggingface-cli login
 
 ```bash
 echo 'alias mj="source ~/.venvs/mujoco/bin/activate"' >> ~/.zshrc
-echo 'alias lr="source ~/.venvs/lerobot/bin/activate"' >> ~/.zshrc
 source ~/.zshrc
 ```

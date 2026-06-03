@@ -89,7 +89,6 @@ alias commit='git commit -m '
 alias push='git push'
 
 alias mj='source ~/.venvs/mujoco/bin/activate'
-alias lr='source ~/.venvs/lerobot/bin/activate'
 EOF
 ```
 
@@ -124,29 +123,6 @@ uv pip install mujoco
 # Test
 python -c "import mujoco; print(mujoco.__version__)"
 python -m mujoco.viewer
-```
-
-### LeRobot
-
-```bash
-uv venv ~/.venvs/lerobot --python 3.11
-source ~/.venvs/lerobot/bin/activate
-uv pip install lerobot
-```
-
-### OpenArm
-
-```bash
-mkdir -p ~/openarm_ws/src
-cd ~/openarm_ws/src
-gh repo clone enactic/openarm_ros2
-gh repo clone enactic/openarm_description
-gh repo clone enactic/openarm_mujoco
-touch openarm_mujoco/COLCON_IGNORE
-vcs import . < openarm_ros2/openarm.repos
-cd ..
-rosdep update && rosdep install --from-paths src --ignore-src -r -y
-sudo apt install -y libcli11-dev   # missing dep
 ```
 
 ### Hugging Face CLI
