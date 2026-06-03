@@ -22,10 +22,7 @@ do_install() {
     fi
     log "Creating $name venv at $path"
     uv venv "$path" --python 3.11
-    # shellcheck disable=SC1090
-    source "$path/bin/activate"
-    uv pip install "$pkg"
-    deactivate
+    uv pip install --python "$path/bin/python" "$pkg"
     ok "$name ready (activate: source $path/bin/activate)"
   }
 
