@@ -22,6 +22,7 @@ MACOS_STEPS=(
   "ssh-key|60-ssh-key.sh|on"
   "python-envs|70-python-envs.sh|on"
   "huggingface|80-huggingface.sh|on"
+  "repos|90-repos.sh|on"
 )
 
 UBUNTU_STEPS=(
@@ -39,6 +40,7 @@ UBUNTU_STEPS=(
   "openarm|84-openarm.sh|on"
   "huggingface|86-huggingface.sh|on"
   "isaac-sim|88-isaac-sim.sh|on"
+  "repos|90-repos.sh|on"
 )
 
 # --- Package arrays --------------------------------------------------------

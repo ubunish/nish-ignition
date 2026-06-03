@@ -86,3 +86,22 @@ dispatch() {
     *) err "unknown mode: $mode (use check|install|uninstall)"; exit 1 ;;
   esac
 }
+
+# --- Repo layer ------------------------------------------------------------
+# Where Nish's own repos are cloned. Override with CODE_DIR for testing.
+CODE_DIR="${CODE_DIR:-$HOME/code}"
+
+# repo_root — absolute path to the nish-ignition checkout (repos.yaml lives here).
+repo_root() { cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd; }
+
+# import_repos — clone every repo in repos.yaml into CODE_DIR via vcstool.
+# Idempotent: vcs import skips repos already present.
+import_repos() {
+  has_cmd vcs || { err "vcstool (vcs) missing — install it before importing"; return 1; }
+  local repos_file; repos_file="$(repo_root)/repos.yaml"
+  [[ -f "$repos_file" ]] || { err "repos.yaml not found at $repos_file"; return 1; }
+  mkdir -p "$CODE_DIR"
+  log "vcs import $CODE_DIR < repos.yaml"
+  vcs import "$CODE_DIR" <"$repos_file"
+  ok "repos imported into $CODE_DIR"
+}
