@@ -3,7 +3,13 @@
 set -euo pipefail
 source "$(dirname "$0")/../lib.sh"
 
-cat <<'EOF'
+do_check() {
+  info "Isaac Sim installs manually — install state is not machine-checkable."
+  return 0
+}
+
+do_install() {
+  cat <<'EOF'
     Isaac Sim install (manual):
 
       1. Sign in with your NVIDIA developer account:
@@ -17,4 +23,12 @@ cat <<'EOF'
          https://docs.isaacsim.omniverse.nvidia.com/latest/installation/install_workstation.html
 
 EOF
-pause "Complete the Isaac Sim install, then continue."
+  pause "Complete the Isaac Sim install, then continue."
+}
+
+do_uninstall() {
+  info "Isaac Sim installs manually — remove it through NVIDIA's uninstaller or by deleting its install directory."
+  return 0
+}
+
+dispatch "$@"

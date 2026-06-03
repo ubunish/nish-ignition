@@ -4,19 +4,38 @@ set -euo pipefail
 source "$(dirname "$0")/../lib.sh"
 require_linux
 
-PACKAGES=(curl git openssh-server ca-certificates gnupg lsb-release software-properties-common)
+do_check() {
+  local p
+  for p in "${UBUNTU_APT[@]}"; do
+    if dpkg -s "$p" >/dev/null 2>&1; then
+      ok "$p installed"
+    else
+      warn "$p missing"
+    fi
+  done
+  return 0
+}
 
-MISSING=()
-for p in "${PACKAGES[@]}"; do
-  if dpkg -s "$p" >/dev/null 2>&1; then
-    skip "$p"
-  else
-    MISSING+=("$p")
+do_install() {
+  MISSING=()
+  for p in "${UBUNTU_APT[@]}"; do
+    if dpkg -s "$p" >/dev/null 2>&1; then
+      skip "$p"
+    else
+      MISSING+=("$p")
+    fi
+  done
+
+  if ((${#MISSING[@]})); then
+    log "apt install ${MISSING[*]}"
+    sudo apt-get install -y "${MISSING[@]}"
+    ok "base deps installed"
   fi
-done
+}
 
-if ((${#MISSING[@]})); then
-  log "apt install ${MISSING[*]}"
-  sudo apt-get install -y "${MISSING[@]}"
-  ok "base deps installed"
-fi
+do_uninstall() {
+  warn "Base deps (curl, git, etc.) underpin the rest of the system — left in place."
+  return 0
+}
+
+dispatch "$@"
