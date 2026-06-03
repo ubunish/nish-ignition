@@ -1,15 +1,12 @@
 #!/usr/bin/env bash
-# Robotics Python envs via uv: mujoco + lerobot in ~/.venvs/<name>.
+# Robotics Python env via uv: mujoco in ~/.venvs/mujoco.
 set -euo pipefail
 source "$(dirname "$0")/../lib.sh"
 has_cmd uv || { err "uv missing — run 20-cli-tools.sh first"; exit 1; }
 
 do_check() {
-  local name path
-  for name in mujoco lerobot; do
-    path="$HOME/.venvs/$name"
-    [[ -d "$path" ]] && ok "$name venv at $path" || warn "$name venv missing"
-  done
+  local path="$HOME/.venvs/mujoco"
+  [[ -d "$path" ]] && ok "mujoco venv at $path" || warn "mujoco venv missing"
   return 0
 }
 
@@ -26,25 +23,21 @@ do_install() {
     ok "$name ready (activate: source $path/bin/activate)"
   }
 
-  make_env mujoco  mujoco
-  make_env lerobot lerobot
+  make_env mujoco mujoco
 }
 
 do_uninstall() {
-  local name path
-  for name in mujoco lerobot; do
-    path="$HOME/.venvs/$name"
-    if [[ -d "$path" ]]; then
-      if confirm "Remove $name venv at $path?"; then
-        rm -rf "$path"
-        ok "$name venv removed"
-      else
-        skip "$name venv kept"
-      fi
+  local path="$HOME/.venvs/mujoco"
+  if [[ -d "$path" ]]; then
+    if confirm "Remove mujoco venv at $path?"; then
+      rm -rf "$path"
+      ok "mujoco venv removed"
     else
-      skip "$name venv not present"
+      skip "mujoco venv kept"
     fi
-  done
+  else
+    skip "mujoco venv not present"
+  fi
 }
 
 dispatch "$@"

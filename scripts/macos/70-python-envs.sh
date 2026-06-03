@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Robotics Python envs via uv: mujoco + lerobot in ~/.venvs/<name>.
+# Robotics Python env via uv: mujoco in ~/.venvs/mujoco.
 set -euo pipefail
 source "$(dirname "$0")/../lib.sh"
 has_cmd uv || { err "uv missing — run 10-cli-tools.sh first"; exit 1; }
@@ -41,13 +41,11 @@ remove_env() {
 
 do_check() {
   check_env mujoco
-  check_env lerobot
   return 0
 }
 
 do_install() {
-  make_env mujoco  mujoco
-  make_env lerobot lerobot
+  make_env mujoco mujoco
 
   info "Smoke-test mujoco with: source ~/.venvs/mujoco/bin/activate && python -m mujoco.viewer"
 }
@@ -55,7 +53,6 @@ do_install() {
 do_uninstall() {
   # Venvs are reproducible user data — reverse, but gate the delete behind confirm.
   remove_env mujoco
-  remove_env lerobot
 }
 
 dispatch "$@"
