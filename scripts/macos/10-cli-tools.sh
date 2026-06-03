@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# CLI tools via Homebrew: gh, uv, python.
+# CLI tools via Homebrew: gh, uv, python, node.
 set -euo pipefail
 source "$(dirname "$0")/../lib.sh"
 require_macos

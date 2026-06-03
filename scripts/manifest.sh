@@ -17,6 +17,7 @@ MACOS_STEPS=(
   "cli-tools|10-cli-tools.sh|on"
   "claude-code|20-claude-code.sh|on"
   "apps|30-apps.sh|on"
+  "foxglove-extensions|35-foxglove-extensions.sh|on"
   "accounts|40-accounts.sh|on"
   "signin|50-signin.sh|on"
   "ssh-key|60-ssh-key.sh|on"
@@ -43,7 +44,7 @@ UBUNTU_STEPS=(
 
 # --- Package arrays --------------------------------------------------------
 
-MACOS_FORMULAE=(gh uv python cloudflare-wrangler jq)
+MACOS_FORMULAE=(gh uv python node cloudflare-wrangler jq)
 
 MACOS_CASKS=(
   slack
@@ -52,6 +53,13 @@ MACOS_CASKS=(
   google-drive
   foxglove-studio
   orbstack
+)
+
+# Foxglove Studio extensions built from source by 35-foxglove-extensions.sh.
+# Entry format: name|repo_url|install_glob (relative to ~/.foxglove-studio/extensions).
+# Cloned at default-branch HEAD (tracks main) — no upstream tags to pin yet.
+MACOS_FOXGLOVE_EXTENSIONS=(
+  "joint-state-publisher|https://github.com/rogy-ken/foxglove-joint-state-publisher|rogyken.joint-state-publisher-*"
 )
 
 # Base apt deps installed early on Ubuntu. jq mirrors the macOS formula.

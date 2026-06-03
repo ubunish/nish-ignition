@@ -23,6 +23,7 @@
 - **GH CLI** — `brew install gh`
 - **UV** (fast Python package installer) — `brew install uv`
 - **Python** — `brew install python`
+- **Node** — `brew install node`
 - **Cloudflare Wrangler** — `brew install cloudflare-wrangler`
 - **OrbStack** — `brew install --cask orbstack`
 
@@ -30,6 +31,12 @@
 
 - **Cloudflare** — `claude plugin install cloudflare@claude-plugins-official`
   - Bundles 8 skills: `cloudflare`, `wrangler`, `durable-objects`, `agents-sdk`, `sandbox-sdk`, `workers-best-practices`, `cloudflare-email-service`, `web-perf`
+
+## Foxglove Extensions
+
+Built from source and installed into the native app (`./setup.sh --only foxglove-extensions`). The extension list lives in `scripts/manifest.sh` (`MACOS_FOXGLOVE_EXTENSIONS`).
+
+- **Joint State Publisher** — [`rogy-ken/foxglove-joint-state-publisher`](https://github.com/rogy-ken/foxglove-joint-state-publisher). Cloned to the build cache, then `npm install && npm run local-install` drops the unpacked extension into `~/.foxglove-studio/extensions/`. Restart Foxglove Studio to load it. Needs Node (`brew install node`).
 
 ## Sign In
 
