@@ -23,6 +23,7 @@ MACOS_STEPS=(
   "python-envs|70-python-envs.sh|on"
   "huggingface|80-huggingface.sh|on"
   "repos|90-repos.sh|on"
+  "repo-installers|92-repo-installers.sh|on"
 )
 
 UBUNTU_STEPS=(
@@ -41,6 +42,7 @@ UBUNTU_STEPS=(
   "huggingface|86-huggingface.sh|on"
   "isaac-sim|88-isaac-sim.sh|on"
   "repos|90-repos.sh|on"
+  "repo-installers|92-repo-installers.sh|on"
 )
 
 # --- Package arrays --------------------------------------------------------

@@ -105,3 +105,48 @@ import_repos() {
   vcs import "$CODE_DIR" <"$repos_file"
   ok "repos imported into $CODE_DIR"
 }
+
+# _delegate_contract INSTALLER MODE — run a cloned repo's install.sh, mapping
+# nish-ignition's mode to the repo's {install|uninstall|status} contract.
+# Both nish-aliases and nish-ai implement this contract.
+_delegate_contract() {
+  local installer="$1" mode="$2" arg
+  case "$mode" in
+    install)   arg="install"   ;;
+    uninstall) arg="uninstall" ;;
+    check)     arg="status"    ;;
+  esac
+  if [[ -x "$installer" ]]; then
+    log "delegate: $installer $arg"
+    "$installer" "$arg"
+  else
+    warn "installer not found (repo not cloned?): $installer"
+  fi
+}
+
+# _delegate_fm_ros2 DIR MODE OS — fm-ros2 owns its Docker/colcon/externals and
+# exposes only a per-OS setup script, so only the install mode delegates.
+_delegate_fm_ros2() {
+  local dir="$1" mode="$2" os="$3" setup="$1/scripts/setup-$3.sh"
+  case "$mode" in
+    install)
+      if [[ -x "$setup" ]]; then
+        log "delegate: $setup"
+        "$setup"
+      else
+        warn "fm-ros2 setup not found (repo not cloned?): $setup"
+      fi
+      ;;
+    *)
+      info "fm-ros2 has no $mode entrypoint — skipping (it owns its own lifecycle)"
+      ;;
+  esac
+}
+
+# run_repo_installers MODE OS — delegate to every cloned repo's own entrypoint.
+run_repo_installers() {
+  local mode="$1" os="$2"
+  _delegate_contract "$CODE_DIR/nish-aliases/install.sh" "$mode"
+  _delegate_contract "$CODE_DIR/nish-ai/install.sh" "$mode"
+  _delegate_fm_ros2 "$CODE_DIR/fm-ros2" "$mode" "$os"
+}
