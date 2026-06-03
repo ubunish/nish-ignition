@@ -37,7 +37,6 @@ UBUNTU_STEPS=(
   "sudo-nopasswd|75-sudo-nopasswd.sh|on"
   "ros2|80-ros2.sh|on"
   "python-envs|82-python-envs.sh|on"
-  "openarm|84-openarm.sh|on"
   "huggingface|86-huggingface.sh|on"
   "isaac-sim|88-isaac-sim.sh|on"
 )
