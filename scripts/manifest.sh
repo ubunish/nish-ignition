@@ -22,8 +22,6 @@ MACOS_STEPS=(
   "ssh-key|60-ssh-key.sh|on"
   "python-envs|70-python-envs.sh|on"
   "huggingface|80-huggingface.sh|on"
-  "repos|90-repos.sh|on"
-  "repo-installers|92-repo-installers.sh|on"
 )
 
 UBUNTU_STEPS=(
@@ -41,12 +39,9 @@ UBUNTU_STEPS=(
   "openarm|84-openarm.sh|on"
   "huggingface|86-huggingface.sh|on"
   "isaac-sim|88-isaac-sim.sh|on"
-  "repos|90-repos.sh|on"
-  "repo-installers|92-repo-installers.sh|on"
 )
 
 # --- Package arrays --------------------------------------------------------
-# jq is required by the nish-ai installer; it must land before repo delegation.
 
 MACOS_FORMULAE=(gh uv python cloudflare-wrangler jq)
 
