@@ -7,10 +7,12 @@
 # CLI; `npm run local-install` builds it and copies the result into that dir.
 #
 # The extension list lives in the manifest (MACOS_FOXGLOVE_EXTENSIONS), one
-# entry per line as: name|repo_url|install_glob
+# entry per line as: name|repo_url|install_glob[|subdir]
 #   name          short handle, also the clone dir under the build cache
 #   repo_url      git remote, cloned at default-branch HEAD (tracks main)
 #   install_glob  pattern under the extensions dir that means "installed"
+#   subdir        optional path within the repo to the extension's package.json
+#                 (defaults to the repo root)
 #
 # Sources are cloned into a build cache (XDG_CACHE_HOME) so re-runs pull instead
 # of re-cloning. Install is idempotent: an extension whose install_glob already
@@ -26,9 +28,9 @@ CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/nish-setup/foxglove-extensions"
 _installed() { compgen -G "$EXT_DIR/$1" >/dev/null 2>&1; }
 
 do_check() {
-  local entry name repo glob
+  local entry name repo glob subdir
   for entry in "${MACOS_FOXGLOVE_EXTENSIONS[@]}"; do
-    IFS='|' read -r name repo glob <<<"$entry"
+    IFS='|' read -r name repo glob subdir <<<"$entry"
     if _installed "$glob"; then
       ok "$name installed"
     else
@@ -42,9 +44,9 @@ do_install() {
   has_cmd git || { err "git missing — run 10-cli-tools.sh first"; exit 1; }
   has_cmd npm || { err "npm missing — install Node: brew install node"; exit 1; }
 
-  local entry name repo glob dir
+  local entry name repo glob subdir dir
   for entry in "${MACOS_FOXGLOVE_EXTENSIONS[@]}"; do
-    IFS='|' read -r name repo glob <<<"$entry"
+    IFS='|' read -r name repo glob subdir <<<"$entry"
     if _installed "$glob"; then
       skip "$name (uninstall first to rebuild)"
       continue
@@ -62,7 +64,7 @@ do_install() {
     fi
 
     log "npm install + local-install ($name)"
-    ( cd "$dir" && npm install && npm run local-install )
+    ( cd "$dir/${subdir:-.}" && npm install && npm run local-install )
     ok "$name"
   done
 
@@ -70,9 +72,9 @@ do_install() {
 }
 
 do_uninstall() {
-  local entry name repo glob match
+  local entry name repo glob subdir match
   for entry in "${MACOS_FOXGLOVE_EXTENSIONS[@]}"; do
-    IFS='|' read -r name repo glob <<<"$entry"
+    IFS='|' read -r name repo glob subdir <<<"$entry"
     if _installed "$glob"; then
       log "remove $name"
       while IFS= read -r match; do

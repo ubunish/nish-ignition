@@ -43,7 +43,7 @@ UBUNTU_STEPS=(
 
 # --- Package arrays --------------------------------------------------------
 
-MACOS_FORMULAE=(gh uv python node cloudflare-wrangler jq)
+MACOS_FORMULAE=(gh uv python node cloudflare-wrangler jq mermaid-cli)
 
 MACOS_CASKS=(
   slack
@@ -55,10 +55,14 @@ MACOS_CASKS=(
 )
 
 # Foxglove Studio extensions built from source by 35-foxglove-extensions.sh.
-# Entry format: name|repo_url|install_glob (relative to ~/.foxglove-studio/extensions).
+# Entry format: name|repo_url|install_glob[|subdir]
+#   install_glob is relative to ~/.foxglove-studio/extensions.
+#   subdir (optional) is the path within the repo holding the extension's
+#   package.json, for repos where the extension is not at the root.
 # Cloned at default-branch HEAD (tracks main) — no upstream tags to pin yet.
 MACOS_FOXGLOVE_EXTENSIONS=(
   "joint-state-publisher|https://github.com/rogy-ken/foxglove-joint-state-publisher|rogyken.joint-state-publisher-*"
+  "fm-teleop|https://github.com/Ubundi/fm-ros2|firstmotive.fm-teleop-*|foxglove_teleop"
 )
 
 # Base apt deps installed early on Ubuntu. jq mirrors the macOS formula.
